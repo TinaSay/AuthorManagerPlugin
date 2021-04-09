@@ -25,24 +25,67 @@
  * along with Authors Manager. If not, see {URI to Plugin License}.
  */
 
-
-if (!class_exists('AuthorsManager')) {
-    class AuthorsManager
-    {
-        public function __construct()
-        {
-
-        }
-
-        public function activate()
-        {
-
-        }
-
-        public function deactivate()
-        {
-
-        }
-
-    }
+/**
+ * Restrict direct access
+ */
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Cannot access this file directly' );
 }
+
+if ( ! class_exists( 'AuthorsManager' ) ) {
+	class AuthorsManager {
+
+		public function __construct() {
+			register_activation_hook( __FILE__, [ $this, 'activate' ] );
+			register_deactivation_hook( __FILE__, [ $this, 'deactivate' ] );
+			$this->activate();
+		}
+
+		public function activate() {
+			add_action( 'init', [ $this, 'add_authors_post_type' ] );
+		}
+
+		public function deactivate() {
+			flush_rewrite_rules();
+		}
+
+		/**
+		 * Adds 'Authors' custom post type
+		 */
+		public function add_authors_post_type() {
+
+			$labels = array(
+				'name'           => 'Authors',
+				'singular_name'  => 'Author',
+				'menu_name'      => 'Authors',
+				'name_admin_bar' => 'Authors',
+				'add_new'        => 'Add New',
+				'add_new_item'   => 'Add New Author',
+				'new_item'       => 'New Author',
+				'edit_item'      => 'Edit Author',
+				'view_item'      => 'View Author',
+				'all_items'      => 'All Authors'
+			);
+
+			$args = array(
+				'labels'             => $labels,
+				'public'             => true,
+				'publicly_queryable' => true,
+				'show_ui'            => true,
+				'show_in_menu'       => true,
+				'query_var'          => true,
+				'capability_type'    => 'post',
+				'has_archive'        => true,
+				'rewrite'            => array( 'slug' => 'authors' ),
+				'hierarchical'       => false,
+				'menu_position'      => null,
+				'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt' ),
+			);
+
+			register_post_type( 'tttp_authors', $args );
+		}
+
+	}
+}
+
+$authorsManager = new AuthorsManager();
