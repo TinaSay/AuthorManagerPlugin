@@ -38,11 +38,19 @@ if ( ! class_exists( 'AuthorsManager' ) ) {
 		public function __construct() {
 			register_activation_hook( __FILE__, [ $this, 'activate' ] );
 			register_deactivation_hook( __FILE__, [ $this, 'deactivate' ] );
+
 			$this->activate();
 		}
 
 		public function activate() {
-			add_action( 'init', [ $this, 'add_authors_post_type' ] );
+			require_once plugin_dir_path( __FILE__ ) . 'inc/class.authors-posttype.php';
+			require_once plugin_dir_path( __FILE__ ) . 'inc/class.authors-meta.php';
+
+			add_action( 'admin_enqueue_scripts', [ $this, 'loadStyles' ] );
+			add_action( 'admin_init', [ $this, 'hideTitleAndEditor' ] );
+			add_filter( 'the_title', [ $this, 'postTitleAsAuthorName' ], 10, 2 );
+
+			flush_rewrite_rules();
 		}
 
 		public function deactivate() {
@@ -50,41 +58,39 @@ if ( ! class_exists( 'AuthorsManager' ) ) {
 		}
 
 		/**
-		 * Adds 'Authors' custom post type
+		 * Hide title and editor input fields from standard admin view
 		 */
-		public function add_authors_post_type() {
-
-			$labels = array(
-				'name'           => 'Authors',
-				'singular_name'  => 'Author',
-				'menu_name'      => 'Authors',
-				'name_admin_bar' => 'Authors',
-				'add_new'        => 'Add New',
-				'add_new_item'   => 'Add New Author',
-				'new_item'       => 'New Author',
-				'edit_item'      => 'Edit Author',
-				'view_item'      => 'View Author',
-				'all_items'      => 'All Authors'
-			);
-
-			$args = array(
-				'labels'             => $labels,
-				'public'             => true,
-				'publicly_queryable' => true,
-				'show_ui'            => true,
-				'show_in_menu'       => true,
-				'query_var'          => true,
-				'capability_type'    => 'post',
-				'has_archive'        => true,
-				'rewrite'            => array( 'slug' => 'authors' ),
-				'hierarchical'       => false,
-				'menu_position'      => null,
-				'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt' ),
-			);
-
-			register_post_type( 'tttp_authors', $args );
+		public function hideTitleAndEditor() {
+			remove_post_type_support( 'authors', 'title' );
+			remove_post_type_support( 'authors', 'editor' );
 		}
 
+		/**
+		 *
+		 * Filter posts to make them display author names as titles
+		 *
+		 * @param $title
+		 * @param $post_id
+		 *
+		 * @return mixed
+		 */
+		public function postTitleAsAuthorName( $title, $post_id ) {
+			if ( is_admin() ) {
+				$title = get_post_meta( $post_id, '_author_name_meta_key', true );
+			}
+
+			return $title;
+		}
+
+		public function loadStyles() {
+			/**
+			 * Load css styles for admin panel only
+			 */
+			if ( is_admin() ) {
+				wp_enqueue_style( 'author-manager-css', plugins_url( 'admin/style.css', __FILE__ ));
+			}
+
+		}
 	}
 }
 
