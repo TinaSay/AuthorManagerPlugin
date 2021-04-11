@@ -1,0 +1,8 @@
+/* Gallery on frontend */
+
+.authors-gallery{}
+
+.authors-gallery img{
+    width: 200px;
+    float:left;
+}
