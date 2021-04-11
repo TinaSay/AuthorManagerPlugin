@@ -46,6 +46,7 @@ if ( ! class_exists( 'AuthorsManager' ) ) {
 			require_once plugin_dir_path( __FILE__ ) . 'inc/class.authors-posttype.php';
 			require_once plugin_dir_path( __FILE__ ) . 'inc/class.authors-meta.php';
 
+			add_filter( 'template_include', [ $this, 'singleAuthorsTemplateInclude' ], 99 );
 			add_action( 'admin_enqueue_scripts', [ $this, 'loadStyles' ] );
 			add_action( 'admin_init', [ $this, 'hideTitleAndEditor' ] );
 			add_filter( 'the_title', [ $this, 'postTitleAsAuthorName' ], 10, 2 );
@@ -75,7 +76,7 @@ if ( ! class_exists( 'AuthorsManager' ) ) {
 		 * @return mixed
 		 */
 		public function postTitleAsAuthorName( $title, $post_id ) {
-			if ( is_admin() ) {
+			if ( is_admin() && get_post_type() == 'authors' ) {
 				$title = get_post_meta( $post_id, '_author_name_meta_key', true );
 			}
 
@@ -87,9 +88,20 @@ if ( ! class_exists( 'AuthorsManager' ) ) {
 			 * Load css styles for admin panel only
 			 */
 			if ( is_admin() ) {
-				wp_enqueue_style( 'author-manager-css', plugins_url( 'admin/style.css', __FILE__ ));
+				wp_enqueue_style( 'author-manager-css', plugins_url( 'admin/style.css', __FILE__ ) );
 			}
 
+		}
+
+		public function singleAuthorsTemplateInclude( $template ) {
+			if ( get_post_type() == 'authors' ) {
+				$singleAuthorTemplate = plugin_dir_path( __FILE__ ) . 'templates/single-authors.php';
+				if ( '' != $singleAuthorTemplate ) {
+					return $singleAuthorTemplate;
+				}
+			}
+
+			return $template;
 		}
 	}
 }

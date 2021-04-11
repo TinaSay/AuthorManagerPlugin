@@ -60,6 +60,22 @@ abstract class Authors_Meta {
 				esc_url( $_POST['author_linkedin_url'] )
 			);
 		}
+
+		if ( array_key_exists( 'linked_user', $_POST ) ) {
+			update_post_meta(
+				$post_id,
+				'_linked_user_meta_key',
+				intval( $_POST['linked_user'] )
+			);
+		}
+
+		if ( array_key_exists( 'author_img', $_POST ) ) {
+			update_post_meta(
+				$post_id,
+				'_author_img_meta_key',
+				intval( $_POST['author_img'] )
+			);
+		}
 	}
 
 
@@ -69,33 +85,52 @@ abstract class Authors_Meta {
 	 * @param \WP_Post $post Post object.
 	 */
 	public static function html( $post ) {
-		$author_name         = get_post_meta( $post->ID, '_author_name_meta_key', true );
-		$author_lastname     = get_post_meta( $post->ID, '_author_lastname_meta_key', true );
-		$author_bio          = get_post_meta( $post->ID, '_author_bio_meta_key', true );
-		$author_fb_url       = get_post_meta( $post->ID, '_author_fb_meta_key', true );
-		$author_linkedin_url = get_post_meta( $post->ID, '_author_linkedin_meta_key', true );
+		/**
+		 * Getting values from the db by means of the included public class
+		 */
+		require_once plugin_dir_path( __FILE__ ) . 'class.meta-values.php';
+		$authorInfo = new Meta_Values( $post->ID );
 		?>
 
         <div class="author-manager-class">
             <label for="author_name">First Name</label>
             <input type="text" name="author_name" id="author_name"
-                   value="<?php echo $author_name ? $author_name : '' ?>"><br>
+                   value="<?php echo $authorInfo->firstname ? $authorInfo->firstname : '' ?>"><br>
 
             <label for="author_lastname">Last Name</label>
             <input type="text" name="author_lastname" id="author_lastname"
-                   value="<?php echo $author_lastname ? $author_lastname : '' ?>">
+                   value="<?php echo $authorInfo->lastname ? $authorInfo->lastname : '' ?>">
 
             <label for="author_bio">Biography</label>
             <textarea name="author_bio" id="author_bio" cols="30"
-                      rows="10"><?php echo $author_bio ? $author_bio : '' ?></textarea>
+                      rows="10"><?php echo $authorInfo->bio ? $authorInfo->bio : '' ?></textarea>
 
             <label for="author_fb_url">Facebook URL</label>
             <input type="text" name="author_fb_url" id="author_fb_url"
-                   value="<?php echo $author_fb_url ? $author_fb_url : '' ?>">
+                   value="<?php echo $authorInfo->fbUrl ? $authorInfo->fbUrl : '' ?>">
 
-            <label for="author_linkedin_url">Facebook URL</label>
+            <label for="author_linkedin_url">LinkedIn URL</label>
             <input type="text" name="author_linkedin_url" id="author_linkedin_url"
-                   value="<?php echo $author_linkedin_url ? $author_linkedin_url : '' ?>">
+                   value="<?php echo $authorInfo->linkedInUrl ? $authorInfo->linkedInUrl : '' ?>">
+
+            <label for="linked_user">Link author to user </label>
+            <select name="linked_user" id="linked_user">
+
+				<?php
+
+				$users = get_users();
+
+				foreach ( $users as $user ): ?>
+                    <option value="<?php echo esc_attr( $user->ID ) ?>"
+						<?php echo $authorInfo->linkedUser == $user->ID ? 'selected' : '' ?>>
+						<?php echo esc_attr( $user->user_login ) ?></option>
+
+				<?php endforeach; ?>
+
+            </select>
+
+            <label for="author_img">Image</label>
+            <input type="file" name="author_img" id="author_img">
         </div>
 		<?php
 	}
