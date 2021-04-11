@@ -18,7 +18,15 @@ if ( have_posts() ) {
 		echo $authorInfo->bio ? '<p>' . $authorInfo->bio . '</p>' : '';
 		echo $authorInfo->fbUrl ? '<p>' . $authorInfo->fbUrl . '</p>' : '';
 		echo $authorInfo->linkedInUrl ? '<p>' . $authorInfo->linkedInUrl . '</p>' : '';
-		echo '<hr>';
+		the_post_thumbnail();
+
+		//Gallery
+		$media = get_attached_media( 'image' );
+		echo '<div class="authors-gallery">';
+		foreach ( $media as $image ) {
+			echo '<img src="' . $image->guid . '" alt="' . $image->title . '">';
+		}
+		echo '</div>';
 
 		if ( $authorInfo->linkedUser ) {
 			$query = new WP_Query( [

@@ -68,14 +68,6 @@ abstract class Authors_Meta {
 				intval( $_POST['linked_user'] )
 			);
 		}
-
-		if ( array_key_exists( 'author_img', $_POST ) ) {
-			update_post_meta(
-				$post_id,
-				'_author_img_meta_key',
-				intval( $_POST['author_img'] )
-			);
-		}
 	}
 
 
@@ -129,8 +121,8 @@ abstract class Authors_Meta {
 
             </select>
 
-            <label for="author_img">Image</label>
-            <input type="file" name="author_img" id="author_img">
+            <input type="button" name="mytheme_gallery" class="button insert-media add_media"
+                   data-editor="content" title="Add Media" value="Add gallery">
         </div>
 		<?php
 	}

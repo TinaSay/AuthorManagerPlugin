@@ -37,6 +37,7 @@ abstract class Authors_Posttype {
 			'show_in_menu'       => true,
 			'query_var'          => true,
 			'capability_type'    => 'post',
+			'supports'           => array( 'thumbnail' ),
 			'has_archive'        => true,
 			'rewrite'            => array( 'slug' => 'authors' ),
 			'hierarchical'       => false,
