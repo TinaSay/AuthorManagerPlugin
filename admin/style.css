@@ -1,6 +1,6 @@
 .author-manager-class input[type="text"] {
     padding: 3px 8px;
-    font-size: 1.7em;
+    font-size: 1.4em;
     line-height: 100%;
     height: 1.7em;
     width: 100%;
@@ -11,9 +11,15 @@
 
 .author-manager-class textarea {
     width: 100%;
+    font-size: 1.4em;
+}
+
+.author-manager-class select {
+    width: 100%;
+    font-size: 1.4em;
 }
 
 .author-manager-class label {
-    font-size: 16px;
+    font-size: 1.4em;
     line-height: 2em;
 }
