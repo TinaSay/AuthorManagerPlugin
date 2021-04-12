@@ -4,13 +4,14 @@
  */
 
 get_header();
+
 if ( have_posts() ) {
 	while ( have_posts() ) {
 		the_post();
 		/**
 		 * Getting values from the db by means of the included public class
 		 */
-		require_once plugin_dir_path( __FILE__ ) . '../inc/class.meta-values.php';
+		require_once plugin_dir_path( __FILE__ ) . '../../inc/class.meta-values.php';
 		$authorInfo = new Meta_Values( get_the_ID() );
 
 		echo $authorInfo->firstname ? '<p>' . $authorInfo->firstname . '</p>' : '';
@@ -22,7 +23,6 @@ if ( have_posts() ) {
 		echo get_the_post_thumbnail( get_the_ID(), 'thumb' ); // Featured image
 
 		the_content(); // Gallery
-
 
 		// Posts from the WP User the author is linked to
 

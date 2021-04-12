@@ -31,6 +31,10 @@
     margin-top: 14px;
 }
 
+.author-manager.add-img-text{
+    font-size: 1.4em;
+}
+
 #mceu_27-body{
     display:none;
 }

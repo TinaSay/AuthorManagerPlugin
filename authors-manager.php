@@ -46,11 +46,17 @@ if ( ! class_exists( 'AuthorsManager' ) ) {
 			require_once plugin_dir_path( __FILE__ ) . 'inc/class.authors-posttype.php';
 			require_once plugin_dir_path( __FILE__ ) . 'inc/class.authors-meta.php';
 
+			// Including templates
 			add_filter( 'template_include', [ $this, 'singleAuthorsTemplateInclude' ], 99 );
+
+			// Enqueueing scripts and styles
 			add_action( 'admin_enqueue_scripts', [ $this, 'loadAdminStyles' ] );
 			add_action( 'wp_enqueue_scripts', [ $this, 'loadPublicStyles' ] );
-			add_action( 'admin_init', [ $this, 'hideTitleAndEditor' ] );
+
+			// Admin panel slight modifications
+			add_action( 'admin_init', [ $this, 'hideTitle' ] );
 			add_filter( 'the_title', [ $this, 'postTitleAsAuthorName' ], 10, 2 );
+			add_filter( 'gettext', [$this, 'renameMediaButton'], 10, 2 );
 
 			flush_rewrite_rules();
 		}
@@ -62,7 +68,7 @@ if ( ! class_exists( 'AuthorsManager' ) ) {
 		/**
 		 * Hide title and editor input fields from standard admin view
 		 */
-		public function hideTitleAndEditor() {
+		public function hideTitle() {
 			remove_post_type_support( 'authors', 'title' );
 		}
 
@@ -88,7 +94,8 @@ if ( ! class_exists( 'AuthorsManager' ) ) {
 		 */
 		public function loadAdminStyles() {
 			if ( get_post_type() == 'authors' ) {
-				wp_enqueue_style( 'author-manager-css', plugins_url( 'admin/style.css', __FILE__ ) );
+				wp_enqueue_style( 'author-manager-css',
+					plugins_url( 'admin/css/style.css', __FILE__ ) );
 			}
 		}
 
@@ -96,19 +103,27 @@ if ( ! class_exists( 'AuthorsManager' ) ) {
 		 * Load css styles for frontend only
 		 */
 		public function loadPublicStyles() {
-			wp_enqueue_style( 'public-author-manager-css', plugins_url( 'public/style.css', __FILE__ ) );
+			wp_enqueue_style( 'public-author-manager-css',
+				plugins_url( 'public/css/style.css', __FILE__ ) );
 		}
 
 
 		public function singleAuthorsTemplateInclude( $template ) {
 			if ( get_post_type() == 'authors' ) {
-				$singleAuthorTemplate = plugin_dir_path( __FILE__ ) . 'templates/single-authors.php';
+				$singleAuthorTemplate = plugin_dir_path( __FILE__ ) . 'public/templates/single-authors.php';
 				if ( '' != $singleAuthorTemplate ) {
 					return $singleAuthorTemplate;
 				}
 			}
 
 			return $template;
+		}
+
+		public function renameMediaButton( $translation, $text ) {
+			if( is_admin() && 'Add Media' === $text && get_post_type()=='authors' ) {
+				return 'Add Image Gallery';
+			}
+			return $translation;
 		}
 	}
 }
