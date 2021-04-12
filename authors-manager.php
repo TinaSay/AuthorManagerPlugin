@@ -64,7 +64,6 @@ if ( ! class_exists( 'AuthorsManager' ) ) {
 		 */
 		public function hideTitleAndEditor() {
 			remove_post_type_support( 'authors', 'title' );
-			remove_post_type_support( 'authors', 'editor' );
 		}
 
 		/**
@@ -85,10 +84,12 @@ if ( ! class_exists( 'AuthorsManager' ) ) {
 		}
 
 		/**
-		 * Load css styles for admin panel only
+		 * Load css styles for admin panel only and only for 'authors' post type
 		 */
 		public function loadAdminStyles() {
-			wp_enqueue_style( 'author-manager-css', plugins_url( 'admin/style.css', __FILE__ ) );
+			if ( get_post_type() == 'authors' ) {
+				wp_enqueue_style( 'author-manager-css', plugins_url( 'admin/style.css', __FILE__ ) );
+			}
 		}
 
 		/**

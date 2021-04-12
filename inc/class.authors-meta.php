@@ -68,6 +68,7 @@ abstract class Authors_Meta {
 				intval( $_POST['linked_user'] )
 			);
 		}
+
 	}
 
 
@@ -77,9 +78,9 @@ abstract class Authors_Meta {
 	 * @param \WP_Post $post Post object.
 	 */
 	public static function html( $post ) {
-		/**
-		 * Getting values from the db by means of the included public class
-		 */
+
+	    // Getting values from the db by means of the included public class
+
 		require_once plugin_dir_path( __FILE__ ) . 'class.meta-values.php';
 		$authorInfo = new Meta_Values( $post->ID );
 		?>
@@ -110,19 +111,16 @@ abstract class Authors_Meta {
 
 				<?php
 
+                // Drop down menu with WP users
 				$users = get_users();
 
 				foreach ( $users as $user ): ?>
                     <option value="<?php echo esc_attr( $user->ID ) ?>"
 						<?php echo $authorInfo->linkedUser == $user->ID ? 'selected' : '' ?>>
 						<?php echo esc_attr( $user->user_login ) ?></option>
-
 				<?php endforeach; ?>
 
             </select>
-
-            <input type="button" name="mytheme_gallery" class="button insert-media add_media"
-                   data-editor="content" title="Add Media" value="Add gallery">
         </div>
 		<?php
 	}

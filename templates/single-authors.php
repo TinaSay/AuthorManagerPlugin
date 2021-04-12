@@ -18,15 +18,13 @@ if ( have_posts() ) {
 		echo $authorInfo->bio ? '<p>' . $authorInfo->bio . '</p>' : '';
 		echo $authorInfo->fbUrl ? '<p>' . $authorInfo->fbUrl . '</p>' : '';
 		echo $authorInfo->linkedInUrl ? '<p>' . $authorInfo->linkedInUrl . '</p>' : '';
-		the_post_thumbnail();
 
-		//Gallery
-		$media = get_attached_media( 'image' );
-		echo '<div class="authors-gallery">';
-		foreach ( $media as $image ) {
-			echo '<img src="' . $image->guid . '" alt="' . $image->title . '">';
-		}
-		echo '</div>';
+		echo get_the_post_thumbnail( get_the_ID(), 'thumb' ); // Featured image
+
+		the_content(); // Gallery
+
+
+		// Posts from the WP User the author is linked to
 
 		if ( $authorInfo->linkedUser ) {
 			$query = new WP_Query( [
