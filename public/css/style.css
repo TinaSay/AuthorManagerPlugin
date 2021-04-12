@@ -34,11 +34,23 @@
     margin-right: 40px;
     margin-top: 10px;
     width: 20%;
+    text-align: center;
 }
 
 .author-image img {
     border: 2px solid #f0f0f1;
     border-radius: 20px;
+}
+
+.soc-links {
+    margin: 0 auto;
+    width: max-content;
+}
+
+.soc-links img {
+    float: left;
+    width: 50px;
+    border: none;
 }
 
 .author-info {
@@ -56,6 +68,26 @@
 
 .author-gallery img {
     max-width: 170px;
+}
+
+.linked-user {
+    color: #797878;
+    font-size: 14px;
+    font-family: sans-serif;
+}
+
+.linked-user img {
+    float: left;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.post-item {
+    border-bottom: 1px solid #ccc;
+    overflow: hidden;
+}
+.post-dates{
+    font-size:12px;
 }
 
 @media screen and (max-width: 800px) {
