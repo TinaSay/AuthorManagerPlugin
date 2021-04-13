@@ -85,8 +85,7 @@ get_header(); ?>
 								if ( get_the_content() != null ) {
 									echo wp_trim_words( get_the_content(), 55 );
 								}
-								echo '<p class="post-dates">'
-								     . get_the_date() . ' | ' . esc_html_e( $linkedUserNick ) . esc_html_e( ' | ' ) . get_the_category_list( ',' ) . '</p>';
+								echo '<p class="post-dates">' . get_the_date() . esc_html( ' | ' ) . esc_html( $linkedUserNick ) . esc_html( ' | ' ) . get_the_category_list( ',' ) . '</p>';
 								echo '</div>';
 
 							}

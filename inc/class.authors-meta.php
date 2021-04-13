@@ -2,7 +2,7 @@
 
 /**
  * Class Authors_Meta
- * Add meta fields for 'authors' post type
+ * Add meta fields for 'ttp_authors' post type
  */
 if ( ! class_exists( 'Authors_Meta' ) ) {
 
@@ -16,7 +16,7 @@ if ( ! class_exists( 'Authors_Meta' ) ) {
 				'author_info',
 				'Authors info',
 				[ self::class, 'html' ],
-				'authors'
+				'ttp_authors'
 			);
 		}
 

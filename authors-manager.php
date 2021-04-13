@@ -69,10 +69,10 @@ if ( ! class_exists( 'AuthorsManager' ) ) {
 
 
 		/**
-		 * Load css styles for admin panel only and only for 'authors' post type
+		 * Load css styles for admin panel only and only for 'ttp_authors' post type
 		 */
 		public function loadAdminStyles() {
-			if ( get_post_type() == 'authors' ) {
+			if ( get_post_type() == 'ttp_authors' ) {
 				wp_enqueue_style( 'author-manager-css',
 					plugins_url( 'admin/css/style.css', __FILE__ ) );
 			}
@@ -82,7 +82,7 @@ if ( ! class_exists( 'AuthorsManager' ) ) {
 		 * Load css styles for frontend only
 		 */
 		public function loadPublicStyles() {
-			if ( get_post_type() == 'authors' ) {
+			if ( get_post_type() == 'ttp_authors' ) {
 				wp_enqueue_style( 'public-author-manager-css',
 					plugins_url( 'public/css/style.css', __FILE__ ) );
 			}
@@ -92,11 +92,11 @@ if ( ! class_exists( 'AuthorsManager' ) ) {
 		 * Load templates for archive and single files
 		 */
 		public function singleAuthorsTemplateInclude( $template ) {
-			if ( get_post_type() == 'authors' ) {
+			if ( get_post_type() == 'ttp_authors' ) {
 
 				if ( is_archive() ) {
 					$tmpl = plugin_dir_path( __FILE__ ) . 'public/templates/archive-authors.php';
-				} elseif ( is_singular( 'authors' ) ) {
+				} elseif ( is_singular( 'ttp_authors' ) ) {
 					$tmpl = plugin_dir_path( __FILE__ ) . 'public/templates/single-authors.php';
 				}
 

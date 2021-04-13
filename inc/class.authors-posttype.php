@@ -2,7 +2,7 @@
 
 /**
  * Class Authors_Posttype
- * Registers and adds 'Authors' post type
+ * Registers and adds 'ttp_authors' post type
  */
 if ( ! class_exists( 'Authors_Posttype' ) ) {
 
@@ -26,7 +26,7 @@ if ( ! class_exists( 'Authors_Posttype' ) ) {
 		);
 
 		/**
-		 * Registers 'Authors' custom post type
+		 * Registers 'ttp_authors' custom post type
 		 */
 		public static function add() {
 
@@ -46,7 +46,7 @@ if ( ! class_exists( 'Authors_Posttype' ) ) {
 				'menu_icon'          => 'dashicons-buddicons-buddypress-logo'
 			);
 
-			register_post_type( 'authors', $args );
+			register_post_type( 'ttp_authors', $args );
 		}
 	}
 

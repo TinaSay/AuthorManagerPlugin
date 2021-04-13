@@ -9,14 +9,14 @@ if ( ! class_exists( 'Admin_Ui' ) ) {
 		 * Hide title field from standard admin view
 		 */
 		public static function hideTitle() {
-			remove_post_type_support( 'authors', 'title' );
+			remove_post_type_support( 'ttp_authors', 'title' );
 		}
 
 		/**
 		 * Rename Add Media button to make it more clear
 		 */
 		public static function renameMediaButton( $translation, $text ) {
-			if ( is_admin() && 'Add Media' === $text && get_post_type() == 'authors' ) {
+			if ( is_admin() && 'Add Media' === $text && get_post_type() == 'ttp_authors' ) {
 				return 'Add Image Gallery';
 			}
 
