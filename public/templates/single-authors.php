@@ -30,14 +30,14 @@ get_header(); ?>
 					<?php } ?>
 
                     <div class="soc-links">
-						<?php if ( $authorInfo->fbUrl ): ?>
-                            <a href="<?php echo $authorInfo->fbUrl ?>" target="_blank">
+						<?php if ( esc_url_raw( $authorInfo->fbUrl ) ): ?>
+                            <a href="<?php echo esc_url_raw( $authorInfo->fbUrl ) ?>" target="_blank">
                                 <img src="<?php echo plugin_dir_url( __FILE__ ) . '../img/facebook.png' ?>"
                                      alt="fb-link">
                             </a>
 						<?php endif; ?>
 						<?php if ( $authorInfo->linkedInUrl ): ?>
-                            <a href="<?php echo $authorInfo->linkedInUrl ?>" target="_blank">
+                            <a href="<?php echo esc_url_raw( $authorInfo->linkedInUrl ) ?>" target="_blank">
                                 <img src="<?php echo plugin_dir_url( __FILE__ ) . '../img/linkedin.png' ?>"
                                      alt="linkedIn-link">
                             </a>
@@ -45,8 +45,8 @@ get_header(); ?>
                     </div>
                 </figure>
                 <section class="author-info">
-                    <h3><?php echo $authorInfo->firstname . ' ' . $authorInfo->lastname ?></h3>
-                    <p><?php echo $authorInfo->bio ?></p>
+                    <h3><?php esc_html_e( $authorInfo->firstname ) . esc_html_e( ' ' ) . esc_html_e( $authorInfo->lastname ) ?></h3>
+                    <p><?php esc_html_e( $authorInfo->bio ) ?></p>
                     <div class="author-gallery">
 						<?php
 						if ( get_the_content() ):
@@ -59,7 +59,7 @@ get_header(); ?>
                 </section>
                 <div class="clearfix"></div>
 
-                <h1>Related User: <?php echo $linkedUserNick ?></h1>
+                <h1>Related User: <?php esc_html_e( $linkedUserNick ) ?></h1>
                 <section class="linked-user">
 
 					<?php
@@ -77,7 +77,8 @@ get_header(); ?>
 								$query->the_post();
 
 								echo '<div class="post-item">'; ?>
-                                <h4><a href="<?php echo get_the_permalink() ?>"><?php echo get_the_title() ?></a></h4>
+                                <h4><a href="<?php esc_attr_e( get_the_permalink() ) ?>">
+										<?php esc_html_e( get_the_title() ) ?></a></h4>
 								<?php
 
 								echo get_the_post_thumbnail( get_the_ID(), 'thumbnail' );
@@ -85,7 +86,7 @@ get_header(); ?>
 									echo wp_trim_words( get_the_content(), 55 );
 								}
 								echo '<p class="post-dates">'
-								     . get_the_date() . ' | ' . $linkedUserNick . ' | ' . get_the_category_list( ',' ) . '</p>';
+								     . get_the_date() . ' | ' . esc_html_e( $linkedUserNick ) . esc_html_e( ' | ' ) . get_the_category_list( ',' ) . '</p>';
 								echo '</div>';
 
 							}
