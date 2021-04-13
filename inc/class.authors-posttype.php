@@ -43,6 +43,7 @@ if ( ! class_exists( 'Authors_Posttype' ) ) {
 				'rewrite'            => array( 'slug' => 'authors', 'with_front' => false ),
 				'hierarchical'       => false,
 				'menu_position'      => null,
+				'menu_icon'          => 'dashicons-buddicons-buddypress-logo'
 			);
 
 			register_post_type( 'authors', $args );
