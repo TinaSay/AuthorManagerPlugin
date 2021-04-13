@@ -3,7 +3,7 @@
 /**
  * Class Meta_Values for getting author values from database to provide a public access
  */
-if ( ! class_exists( 'Authors_Posttype' ) ) {
+if ( ! class_exists( 'Meta_Values' ) ) {
 
 	class Meta_Values {
 		/**

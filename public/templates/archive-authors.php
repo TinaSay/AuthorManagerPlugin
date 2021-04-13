@@ -17,6 +17,7 @@ get_header(); ?>
 						$authorInfo->lastname,
 						get_the_permalink()
 					) ); // Rewriting the permalink
+
 					?>
 
                     <div class="post-item">

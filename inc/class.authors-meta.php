@@ -13,63 +13,87 @@ if ( ! class_exists( 'Authors_Meta' ) ) {
 		 */
 		public static function add() {
 			add_meta_box(
-				'author_info',          // Unique ID
-				'Authors info', // Box title
-				[ self::class, 'html' ],   // Content callback, must be of type callable
-				'authors',
-				'test',
-				'high'
+				'author_info',
+				'Authors info',
+				[ self::class, 'html' ],
+				'authors'
 			);
 		}
 
 
+		/**
+		 * Save input values
+		 *
+		 * @param $post_id
+		 */
 		public static function save( $post_id ) {
 
 			if ( array_key_exists( 'author_name', $_POST ) ) {
-				update_post_meta(
-					$post_id,
-					'_author_name_meta_key',
-					sanitize_text_field( $_POST['author_name'] )
-				);
+				$firstname = sanitize_text_field( $_POST['author_name'] );
+
+				if ( isset( $firstname ) && ! empty( $firstname ) && strlen( $firstname ) > 1 ) {
+					update_post_meta(
+						$post_id,
+						'_author_name_meta_key',
+						$firstname
+					);
+				}
 			}
+
 			if ( array_key_exists( 'author_lastname', $_POST ) ) {
-				update_post_meta(
-					$post_id,
-					'_author_lastname_meta_key',
-					trim( sanitize_text_field( $_POST['author_lastname'] ) )
-				);
+				$lastname = sanitize_text_field( $_POST['author_lastname'] );
+
+				if ( isset( $lastname ) && ! empty( $lastname ) && strlen( $lastname ) > 1 ) {
+					update_post_meta(
+						$post_id,
+						'_author_lastname_meta_key',
+						$lastname
+					);
+				}
 			}
 
 			if ( array_key_exists( 'author_bio', $_POST ) ) {
-				update_post_meta(
-					$post_id,
-					'_author_bio_meta_key',
-					sanitize_textarea_field( trim( $_POST['author_bio'] ) )
-				);
+				$bio = sanitize_textarea_field( $_POST['author_bio'] );
+				if ( isset( $bio ) && ! empty( $bio ) && strlen( $bio ) > 1 ) {
+					update_post_meta(
+						$post_id,
+						'_author_bio_meta_key',
+						$bio
+					);
+				}
 			}
 
 			if ( array_key_exists( 'author_fb_url', $_POST ) ) {
-				update_post_meta(
-					$post_id,
-					'_author_fb_meta_key',
-					esc_url( $_POST['author_fb_url'] )
-				);
+				$fbUrl = esc_url_raw( $_POST['author_fb_url'] );
+				if ( isset( $fbUrl ) && ! empty( $fbUrl ) && strlen( $fbUrl ) > 3 ) {
+					update_post_meta(
+						$post_id,
+						'_author_fb_meta_key',
+						$fbUrl
+					);
+				}
 			}
 
 			if ( array_key_exists( 'author_linkedin_url', $_POST ) ) {
-				update_post_meta(
-					$post_id,
-					'_author_linkedin_meta_key',
-					esc_url( $_POST['author_linkedin_url'] )
-				);
+				$linkedInUrl = esc_url_raw( $_POST['author_linkedin_url'] );
+				if ( isset( $linkedInUrl ) && ! empty( $linkedInUrl ) && strlen( $linkedInUrl ) > 3 ) {
+					update_post_meta(
+						$post_id,
+						'_author_linkedin_meta_key',
+						$linkedInUrl
+					);
+				}
 			}
 
 			if ( array_key_exists( 'linked_user', $_POST ) ) {
-				update_post_meta(
-					$post_id,
-					'_linked_user_meta_key',
-					intval( $_POST['linked_user'] )
-				);
+				$linkedUser = intval( $_POST['linked_user'] );
+				if ( isset( $linkedUser ) && ! empty( $linkedUser ) ) {
+					update_post_meta(
+						$post_id,
+						'_linked_user_meta_key',
+						$linkedUser
+					);
+				}
 			}
 
 		}

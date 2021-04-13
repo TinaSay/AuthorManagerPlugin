@@ -35,6 +35,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ( ! class_exists( 'AuthorsManager' ) ) {
 	class AuthorsManager {
 
+		/**
+		 * AuthorsManager constructor.
+		 */
 		public function __construct() {
 			register_activation_hook( __FILE__, [ $this, 'activate' ] );
 			register_deactivation_hook( __FILE__, [ $this, 'deactivate' ] );
@@ -42,22 +45,20 @@ if ( ! class_exists( 'AuthorsManager' ) ) {
 			$this->activate();
 		}
 
+		/**
+		 * Load necessary classes, enqueue styles, include template
+		 */
 		public function activate() {
-			require_once plugin_dir_path( __FILE__ ) . 'inc/class.authors-posttype.php';
-			require_once plugin_dir_path( __FILE__ ) . 'inc/class.authors-meta.php';
+			require_once plugin_dir_path( __FILE__ ) . 'inc/class.authors-posttype.php'; // Creates post type
+			require_once plugin_dir_path( __FILE__ ) . 'inc/class.authors-meta.php'; // Creates meta fields
+			require_once plugin_dir_path( __FILE__ ) . 'inc/class.admin-ui.php'; // Admin panel UI
 
 			// Including templates
 			add_filter( 'template_include', [ $this, 'singleAuthorsTemplateInclude' ], 99 );
-			//add_filter( 'template_include', [ $this, 'archiveAuthorsTemplateInclude' ], 99 );
 
 			// Enqueueing scripts and styles
 			add_action( 'admin_enqueue_scripts', [ $this, 'loadAdminStyles' ] );
 			add_action( 'wp_enqueue_scripts', [ $this, 'loadPublicStyles' ] );
-
-			// Admin panel slight modifications
-			add_action( 'admin_init', [ $this, 'hideTitle' ] );
-			add_filter( 'the_title', [ $this, 'postTitleAsAuthorName' ], 10, 2 );
-			add_filter( 'gettext', [$this, 'renameMediaButton'], 10, 2 );
 
 			flush_rewrite_rules();
 		}
@@ -66,29 +67,6 @@ if ( ! class_exists( 'AuthorsManager' ) ) {
 			flush_rewrite_rules();
 		}
 
-		/**
-		 * Hide title and editor input fields from standard admin view
-		 */
-		public function hideTitle() {
-			remove_post_type_support( 'authors', 'title' );
-		}
-
-		/**
-		 *
-		 * Filter posts to make them display author names as titles
-		 *
-		 * @param $title
-		 * @param $post_id
-		 *
-		 * @return mixed
-		 */
-		public function postTitleAsAuthorName( $title, $post_id ) {
-			if ( is_admin() && get_post_type() == 'authors' ) {
-				$title = get_post_meta( $post_id, '_author_name_meta_key', true );
-			}
-
-			return $title;
-		}
 
 		/**
 		 * Load css styles for admin panel only and only for 'authors' post type
@@ -104,21 +82,25 @@ if ( ! class_exists( 'AuthorsManager' ) ) {
 		 * Load css styles for frontend only
 		 */
 		public function loadPublicStyles() {
-			wp_enqueue_style( 'public-author-manager-css',
-				plugins_url( 'public/css/style.css', __FILE__ ) );
+			if ( get_post_type() == 'authors' ) {
+				wp_enqueue_style( 'public-author-manager-css',
+					plugins_url( 'public/css/style.css', __FILE__ ) );
+			}
 		}
 
-
+		/**
+		 * Load templates for archive and single files
+		 */
 		public function singleAuthorsTemplateInclude( $template ) {
 			if ( get_post_type() == 'authors' ) {
 
-				if(is_archive()){
-					$tmpl= plugin_dir_path( __FILE__ ) . 'public/templates/archive-authors.php';
-				} elseif(is_singular('authors')){
-					$tmpl= plugin_dir_path( __FILE__ ) . 'public/templates/single-authors.php';
+				if ( is_archive() ) {
+					$tmpl = plugin_dir_path( __FILE__ ) . 'public/templates/archive-authors.php';
+				} elseif ( is_singular( 'authors' ) ) {
+					$tmpl = plugin_dir_path( __FILE__ ) . 'public/templates/single-authors.php';
 				}
 
-				if ( '' != $tmpl) {
+				if ( '' != $tmpl ) {
 					return $tmpl;
 				}
 			}
@@ -126,13 +108,9 @@ if ( ! class_exists( 'AuthorsManager' ) ) {
 			return $template;
 		}
 
-		public function renameMediaButton( $translation, $text ) {
-			if( is_admin() && 'Add Media' === $text && get_post_type()=='authors' ) {
-				return 'Add Image Gallery';
-			}
-			return $translation;
-		}
-	}
-}
 
-$authorsManager = new AuthorsManager();
+	}
+
+
+	$authorsManager = new AuthorsManager();
+}
