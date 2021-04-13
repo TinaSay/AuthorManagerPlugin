@@ -66,4 +66,7 @@ if ( isset( $authorInfo->linkedUser ) ) {
 		<?php endforeach; ?>
 
     </select>
+
+	<?php wp_nonce_field( 'meta_save_action','meta_nonce_field' ); ?>
+
 </div>
