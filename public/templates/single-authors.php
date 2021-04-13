@@ -48,8 +48,13 @@ get_header(); ?>
                     <h3><?php echo $authorInfo->firstname . ' ' . $authorInfo->lastname ?></h3>
                     <p><?php echo $authorInfo->bio ?></p>
                     <div class="author-gallery">
-                        <h4>Author's Gallery</h4>
-						<?php the_content(); // Gallery ?>
+						<?php
+						if ( get_the_content() ):
+							?>
+                            <h4>Author's Gallery</h4>
+							<?php the_content(); // Gallery
+						endif;
+						?>
                     </div>
                 </section>
                 <div class="clearfix"></div>
@@ -71,9 +76,9 @@ get_header(); ?>
 							while ( $query->have_posts() ) {
 								$query->the_post();
 
-								echo '<div class="post-item">';?>
+								echo '<div class="post-item">'; ?>
                                 <h4><a href="<?php echo get_the_permalink() ?>"><?php echo get_the_title() ?></a></h4>
-                                <?php
+								<?php
 
 								echo get_the_post_thumbnail( get_the_ID(), 'thumbnail' );
 								if ( get_the_content() != null ) {

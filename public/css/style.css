@@ -42,6 +42,12 @@
     border-radius: 20px;
 }
 
+.auth-img{
+    border: 2px solid #f0f0f1;
+    border-radius: 20px;
+    width:120px;
+}
+
 .soc-links {
     margin: 0 auto;
     width: max-content;
@@ -60,10 +66,6 @@
 
 .clearfix {
     clear: both;
-}
-
-
-.authors-gallery {
 }
 
 .author-gallery img {
@@ -86,8 +88,9 @@
     border-bottom: 1px solid #ccc;
     overflow: hidden;
 }
-.post-dates{
-    font-size:12px;
+
+.post-dates {
+    font-size: 12px;
 }
 
 @media screen and (max-width: 800px) {

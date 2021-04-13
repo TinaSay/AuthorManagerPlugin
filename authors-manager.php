@@ -48,6 +48,7 @@ if ( ! class_exists( 'AuthorsManager' ) ) {
 
 			// Including templates
 			add_filter( 'template_include', [ $this, 'singleAuthorsTemplateInclude' ], 99 );
+			//add_filter( 'template_include', [ $this, 'archiveAuthorsTemplateInclude' ], 99 );
 
 			// Enqueueing scripts and styles
 			add_action( 'admin_enqueue_scripts', [ $this, 'loadAdminStyles' ] );
@@ -110,9 +111,15 @@ if ( ! class_exists( 'AuthorsManager' ) ) {
 
 		public function singleAuthorsTemplateInclude( $template ) {
 			if ( get_post_type() == 'authors' ) {
-				$singleAuthorTemplate = plugin_dir_path( __FILE__ ) . 'public/templates/single-authors.php';
-				if ( '' != $singleAuthorTemplate ) {
-					return $singleAuthorTemplate;
+
+				if(is_archive()){
+					$tmpl= plugin_dir_path( __FILE__ ) . 'public/templates/archive-authors.php';
+				} elseif(is_singular('authors')){
+					$tmpl= plugin_dir_path( __FILE__ ) . 'public/templates/single-authors.php';
+				}
+
+				if ( '' != $tmpl) {
+					return $tmpl;
 				}
 			}
 

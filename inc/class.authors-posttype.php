@@ -38,8 +38,8 @@ abstract class Authors_Posttype {
 			'query_var'          => true,
 			'capability_type'    => 'post',
 			'supports'           => array( 'thumbnail','editor' ),
-			'has_archive'        => true,
-			'rewrite'            => array( 'slug' => 'authors' ),
+			'has_archive'        => 'authors',
+			'rewrite'            => array( 'slug' => 'authors','with_front'=>false ),
 			'hierarchical'       => false,
 			'menu_position'      => null,
 		);
