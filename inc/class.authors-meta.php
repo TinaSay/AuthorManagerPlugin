@@ -9,15 +9,36 @@ if ( ! class_exists( 'Authors_Meta' ) ) {
 	abstract class Authors_Meta {
 
 		/**
-		 * Set up and add the meta box.
+		 * Set up and add the meta boxes
 		 */
-		public static function add() {
+
+		public static function my_meta_box_cb() {
 			add_meta_box(
 				'author_info',
 				'Authors info',
 				[ self::class, 'html' ],
 				'ttp_authors'
 			);
+
+			add_meta_box( 'ttp_authors_details',
+				'Media Library',
+				[ self::class, 'my_meta_box_details' ],
+				'ttp_authors');
+
+		}
+
+		/**
+		 * Display the meta box HTML to the user.
+		 **/
+		public static function html() {
+			include plugin_dir_path( __FILE__ ) . '../admin/templates/meta-fields-template.php';
+		}
+
+		public static function my_meta_box_details() {
+			global $post;
+			$post_ID = $post->ID; // global used by get_upload_iframe_src
+			printf( "<iframe frameborder='0' src=' %s ' style='width: 100%%; height: 400px;'> </iframe>",
+				get_upload_iframe_src( 'media' ) );
 		}
 
 
@@ -28,8 +49,8 @@ if ( ! class_exists( 'Authors_Meta' ) ) {
 		 */
 		public static function save( $post_id ) {
 
-			if ( current_user_can( 'edit_posts' ) && ! empty( $_POST ) &&
-			     check_admin_referer( 'meta_save_action', 'meta_nonce_field' )  ) {
+			if ( current_user_can( 'edit_others_posts' ) && ! empty( $_POST ) &&
+			     check_admin_referer( 'meta_save_action', 'meta_nonce_field' ) ) {
 
 				if ( array_key_exists( 'author_name', $_POST ) ) {
 					$firstname = sanitize_text_field( $_POST['author_name'] );
@@ -103,14 +124,8 @@ if ( ! class_exists( 'Authors_Meta' ) ) {
 		}
 
 
-		/**
-		 * Display the meta box HTML to the user.
-		 **/
-		public static function html() {
-			include plugin_dir_path( __FILE__ ) . '../admin/templates/meta-fields-template.php';
-		}
 	}
 
-	add_action( 'add_meta_boxes', [ 'Authors_Meta', 'add' ], 1 );
+	add_action( 'add_meta_boxes', [ 'Authors_Meta', 'my_meta_box_cb' ], 1 );
 	add_action( 'save_post', [ 'Authors_Meta', 'save' ] );
 }

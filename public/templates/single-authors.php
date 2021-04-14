@@ -48,13 +48,27 @@ get_header(); ?>
                     <h3><?php esc_html_e( $authorInfo->firstname ) . esc_html_e( ' ' ) . esc_html_e( $authorInfo->lastname ) ?></h3>
                     <p><?php esc_html_e( $authorInfo->bio ) ?></p>
                     <div class="author-gallery">
+
+                        <!-- Retrieve attached images -->
+                        <h4>Author's Gallery</h4>
+
 						<?php
-						if ( get_the_content() ):
-							?>
-                            <h4>Author's Gallery</h4>
-							<?php the_content(); // Gallery
-						endif;
+
+						$attachments = get_posts(array(
+							'post_type' => 'attachment',
+							'numberposts' => -1,
+							'post_status' =>'any',
+							'post_parent' => get_the_ID()
+						));
+
+						if ($attachments) {
+							foreach ( $attachments as $attachment ) {
+								//echo apply_filters( 'the_title' , $attachment->post_title );
+								the_attachment_link( $attachment->ID , false );
+							}
+						}
 						?>
+
                     </div>
                 </section>
                 <div class="clearfix"></div>

@@ -6,21 +6,11 @@ if ( ! class_exists( 'Admin_Ui' ) ) {
 
 	class Admin_Ui {
 		/**
-		 * Hide title field from standard admin view
+		 * Hide title and editor field from standard admin view
 		 */
 		public static function hideTitle() {
 			remove_post_type_support( 'ttp_authors', 'title' );
-		}
-
-		/**
-		 * Rename Add Media button to make it more clear
-		 */
-		public static function renameMediaButton( $translation, $text ) {
-			if ( is_admin() && 'Add Media' === $text && get_post_type() == 'ttp_authors' ) {
-				return 'Add Image Gallery';
-			}
-
-			return $translation;
+			remove_post_type_support( 'ttp_authors', 'editor' );
 		}
 
 		// Add the custom columns to the authors post type:
@@ -59,7 +49,6 @@ if ( ! class_exists( 'Admin_Ui' ) ) {
 	}
 
 	add_action( 'admin_init', [ 'Admin_Ui', 'hideTitle' ] );
-	add_filter( 'gettext', [ 'Admin_Ui', 'renameMediaButton' ], 10, 2 );
 	add_filter( 'manage_ttp_authors_posts_columns', [ 'Admin_Ui', 'set_custom_ttp_authors_columns' ], 9 );
 	add_action( 'manage_ttp_authors_posts_custom_column', [ 'Admin_Ui', 'custom_ttp_authors_column' ], 10, 2 );
 

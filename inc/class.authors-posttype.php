@@ -38,12 +38,14 @@ if ( ! class_exists( 'Authors_Posttype' ) ) {
 				'show_in_menu'       => true,
 				'query_var'          => true,
 				'capability_type'    => 'post',
-				'supports'           => array( 'thumbnail', 'editor' ),
+				'supports'           => array( 'thumbnail' ),
 				'has_archive'        => 'authors',
 				'rewrite'            => array( 'slug' => 'authors', 'with_front' => false ),
 				'hierarchical'       => false,
 				'menu_position'      => null,
-				'menu_icon'          => 'dashicons-buddicons-buddypress-logo'
+				'menu_icon'          => 'dashicons-buddicons-buddypress-logo',
+
+				'register_meta_box_cb' => [ 'Authors_Meta', 'my_meta_box_cb' ]
 			);
 
 			register_post_type( 'ttp_authors', $args );
@@ -51,4 +53,6 @@ if ( ! class_exists( 'Authors_Posttype' ) ) {
 	}
 
 	add_action( 'init', [ 'Authors_Posttype', 'add' ] );
+
+
 }
