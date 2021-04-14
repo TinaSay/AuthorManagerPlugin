@@ -1,7 +1,8 @@
 .author-bio-section {
     max-width: 1000px;
     margin: auto;
-    padding: 10px;
+    padding: 20px;
+    background: #fff;
 }
 
 .author-bio-section h1 {
@@ -27,6 +28,7 @@
     color: #797878;
     font-size: 14px;
     font-family: sans-serif;
+    padding-bottom: 30px;
 }
 
 .author-image {
@@ -45,7 +47,7 @@
 .auth-img{
     border: 2px solid #f0f0f1;
     border-radius: 20px;
-    width:120px;
+    width:120px !important;
 }
 
 .soc-links {
@@ -69,7 +71,7 @@
 }
 
 .author-gallery img {
-    max-width: 170px;
+    max-width: 170px !important;
     margin: 4px;
 }
 
@@ -77,6 +79,7 @@
     color: #797878;
     font-size: 14px;
     font-family: sans-serif;
+    padding: 20px;
 }
 
 .linked-user img {

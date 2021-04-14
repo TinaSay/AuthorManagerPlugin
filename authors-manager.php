@@ -59,19 +59,8 @@ if ( ! class_exists( 'AuthorsManager' ) ) {
 			add_action( 'wp_enqueue_scripts', [ $this, 'loadPublicStyles' ] );
 
 			// Modify post title and post name according to author name
-			add_filter( 'wp_insert_post_data', 'modify_post_title', '99', 1 );
+			add_filter( 'wp_insert_post_data', [ $this, 'modifyPostTitle' ], '99', 1 );
 
-			function modify_post_title( $data ) {
-				if ( $data['post_type'] == 'ttp_authors' ) {
-					if ( isset( $_POST['author_name'] ) && $_POST['author_lastname'] ) {
-						$title              = $_POST['author_name'] . '-' . $_POST['author_lastname'];
-						$data['post_title'] = $title;
-						$data['post_name']  = $title;
-					}
-				}
-
-				return $data;
-			}
 
 			flush_rewrite_rules();
 		}
@@ -115,6 +104,18 @@ if ( ! class_exists( 'AuthorsManager' ) ) {
 			}
 
 			return $template;
+		}
+
+		public function modifyPostTitle( $data ) {
+			if ( $data['post_type'] == 'ttp_authors' ) {
+				if ( isset( $_POST['author_name'] ) && $_POST['author_lastname'] ) {
+					$title              = $_POST['author_name'] . '-' . $_POST['author_lastname'];
+					$data['post_title'] = $title;
+					$data['post_name']  = $title;
+				}
+			}
+
+			return $data;
 		}
 
 
