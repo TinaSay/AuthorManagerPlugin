@@ -12,16 +12,11 @@ get_header(); ?>
 					the_post();
 
 					$authorInfo = new Meta_Values( get_the_ID() ); // Retrieving values
-					$link       =  add_query_arg(
-						$authorInfo->firstname,
-						$authorInfo->lastname,
-						get_the_permalink()
-					) ; // Rewriting the permalink
 
 					?>
 
                     <div class="post-item">
-                        <a href="<?php echo esc_url_raw($link) ?>">
+                        <a href="<?php echo get_permalink() ?>">
                             <h3><?php echo esc_html_e($authorInfo->firstname) . esc_html_e(' ') . esc_html_e($authorInfo->lastname) ?></h3></a>
 						<?php
 						if ( has_post_thumbnail() ) {
@@ -34,7 +29,7 @@ get_header(); ?>
 						}
 						echo esc_textarea(wp_trim_words($authorInfo->bio, 55 ));
 						?>
-                        <a href="<?php echo esc_url_raw($link) ?>">
+                        <a href="<?php echo get_permalink() ?>">
                             <p>See profile</p>
                         </a>
 

@@ -3,8 +3,6 @@
  * Plugin Name:       Authors Manager
  * Description:       Handles adding new authors, linking them with existing users and display on front end.
  * Version:           1.0.0
- * Requires at least: 5.2
- * Requires PHP:      7.2
  * Author:            Valentina Sayapina
  * License:           GPL v2 or later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -60,6 +58,20 @@ if ( ! class_exists( 'AuthorsManager' ) ) {
 			add_action( 'admin_enqueue_scripts', [ $this, 'loadAdminStyles' ] );
 			add_action( 'wp_enqueue_scripts', [ $this, 'loadPublicStyles' ] );
 
+			// Modify post title and post name according to author name
+			add_filter( 'wp_insert_post_data' , 'modify_post_title' , '99', 1 );
+
+			function modify_post_title( $data )
+			{
+				if($data['post_type'] == 'ttp_authors') {
+					if(isset($_POST['author_name']) && $_POST['author_lastname']){
+						$title = $_POST['author_name'].'-'.$_POST['author_lastname'];
+						$data['post_title'] =  $title ;
+						$data['post_name'] =  $title ;
+					}
+				}
+				return $data;
+			}
 			flush_rewrite_rules();
 		}
 
