@@ -9,24 +9,12 @@ require_once plugin_dir_path( __FILE__ ) . '../../inc/class.meta-values.php';
 $authorInfo = new Meta_Values( $post->ID );
 
 // Check if values are present
-if ( isset( $authorInfo->firstname ) ) {
-	$firstname = $authorInfo->firstname;
-}
-if ( isset( $authorInfo->lastname ) ) {
-	$lastname = $authorInfo->lastname;
-}
-if ( isset( $authorInfo->bio ) ) {
-	$bio = $authorInfo->bio;
-}
-if ( isset( $authorInfo->fbUrl ) ) {
-	$fbUrl = $authorInfo->fbUrl;
-}
-if ( isset( $authorInfo->linkedInUrl ) ) {
-	$linkedInUrl = $authorInfo->linkedInUrl;
-}
-if ( isset( $authorInfo->linkedUser ) ) {
-	$linkedUser = $authorInfo->linkedUser;
-}
+$firstname = isset( $authorInfo->firstname ) ? $authorInfo->firstname : '';
+$lastname = isset( $authorInfo->lastname ) ? $authorInfo->lastname : '';
+$bio = isset( $authorInfo->bio ) ? $authorInfo->bio : '';
+$fbUrl = isset( $authorInfo->fbUrl ) ? $authorInfo->fbUrl : '';
+$linkedInUrl = isset( $authorInfo->linkedInUrl ) ? $authorInfo->linkedInUrl : '';
+$linkedUser = isset( $authorInfo->linkedUser ) ? $authorInfo->linkedUser : '';
 
 ?>
 
