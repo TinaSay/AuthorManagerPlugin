@@ -22,6 +22,8 @@ The purpose of the plugin is the CRUD actions for authors from the admin panel a
 * Add new author
 * Fill all necessary fields with proper information
 * To see posts from the frontend click 'View posts' to see the archive and 'View post' to see a singular page of the post.
+* Frontend views are available by the following paths: your-domain/authors for all authors list 
+and your-domain/authors/first_name-last_name for each single author view
 
 ## License
 
