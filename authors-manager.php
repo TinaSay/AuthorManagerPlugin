@@ -62,6 +62,10 @@ if ( ! class_exists( 'AuthorsManager' ) ) {
 			// Modify post title and post name according to author name
 			add_filter( 'wp_insert_post_data', [ $this, 'modifyPostTitle' ], '99', 1 );
 
+			// Allow only images for upload
+			add_filter( 'upload_mimes', [ $this, 'custom_mime_types' ], 1, 1 );
+
+			// Register Widget
 			add_action( 'widgets_init', function () {
 				register_widget( 'AuthorsWidget' );
 			} );
@@ -110,6 +114,13 @@ if ( ! class_exists( 'AuthorsManager' ) ) {
 			return $template;
 		}
 
+		/**
+		 * Modify post title and post name to look it like firstname-lastname
+		 *
+		 * @param $data
+		 *
+		 * @return mixed
+		 */
 		public function modifyPostTitle( $data ) {
 			if ( $data['post_type'] == 'ttp_authors' ) {
 				if ( isset( $_POST['author_name'] ) && $_POST['author_lastname'] ) {
@@ -123,8 +134,25 @@ if ( ! class_exists( 'AuthorsManager' ) ) {
 		}
 
 
+		/**
+		 * Allow only images to upload
+		 *
+		 * @param $mimes
+		 *
+		 * @return mixed
+		 */
+		public function custom_mime_types( $mimes ) {
+			// Forbiden ALL
+			unset( $mimes );
+			// OK gif, png, jpg
+			$mimes['jpg|jpeg|jpe'] = 'image/jpeg';
+			$mimes['gif']          = 'image/gif';
+			$mimes['png']          = 'image/png';
+			// List mime types available here
+			// https://codex.wordpress.org/Function_Reference/get_allowed_mime_types
+			return $mimes;
+		}
 	}
-
 
 	$authorsManager = new AuthorsManager();
 }
