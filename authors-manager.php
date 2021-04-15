@@ -50,6 +50,7 @@ if ( ! class_exists( 'AuthorsManager' ) ) {
 			require_once plugin_dir_path( __FILE__ ) . 'inc/class.authors-posttype.php'; // Creates post type
 			require_once plugin_dir_path( __FILE__ ) . 'inc/class.authors-meta.php'; // Creates meta fields
 			require_once plugin_dir_path( __FILE__ ) . 'inc/class.admin-ui.php'; // Admin panel UI
+			require_once plugin_dir_path( __FILE__ ) . 'inc/class.authors-widget.php'; // Admin panel UI
 
 			// Including templates
 			add_filter( 'template_include', [ $this, 'singleAuthorsTemplateInclude' ], 99 );
@@ -61,6 +62,9 @@ if ( ! class_exists( 'AuthorsManager' ) ) {
 			// Modify post title and post name according to author name
 			add_filter( 'wp_insert_post_data', [ $this, 'modifyPostTitle' ], '99', 1 );
 
+			add_action( 'widgets_init', function () {
+				register_widget( 'AuthorsWidget' );
+			} );
 
 			flush_rewrite_rules();
 		}

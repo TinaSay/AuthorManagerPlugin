@@ -97,6 +97,25 @@
     font-size: 12px;
 }
 
+
+.authors-block{
+    margin-right: calc(3 * 1rem);
+    width: calc(50% - (3 * 1rem));
+}
+
+.authors-block img{
+    width:100px !important;
+    float: left;
+    margin-right: 10px;
+}
+
+.authors-block p{
+    font-size: 14px;
+    font-family: sans-serif;
+    color: #635f5f;
+}
+
+
 @media screen and (max-width: 800px) {
     .author-image, .author-info {
         width: 100%;
