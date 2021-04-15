@@ -123,8 +123,17 @@ if ( ! class_exists( 'AuthorsManager' ) ) {
 		 */
 		public function modifyPostTitle( $data ) {
 			if ( $data['post_type'] == 'ttp_authors' ) {
-				if ( isset( $_POST['author_name'] ) && $_POST['author_lastname'] ) {
-					$title              = $_POST['author_name'] . '-' . $_POST['author_lastname'];
+
+				if ( ! empty( $_POST['author_name'] ) && ! empty( $_POST['author_lastname'] ) ) {
+					$firstname = $_POST['author_name'];
+					$lastname  = $_POST['author_lastname'];
+					if ( preg_match( '/\s/', $firstname ) ) {
+						$firstname = str_replace( ' ', '_', $firstname );
+					}
+					if ( preg_match( '/\s/', $lastname ) ) {
+						$lastname = str_replace( ' ', '_', $lastname );
+					}
+					$title              = $firstname . '-' . $lastname;
 					$data['post_title'] = $title;
 					$data['post_name']  = $title;
 				}
