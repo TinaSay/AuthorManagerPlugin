@@ -8,6 +8,7 @@ The purpose of the plugin is the CRUD actions for authors from the admin panel a
 * The plugin is based on the [Plugin API](http://codex.wordpress.org/Plugin_API), [Coding Standards](http://codex.wordpress.org/WordPress_Coding_Standards), and [Documentation Standards](https://make.wordpress.org/core/handbook/best-practices/inline-documentation-standards/php/).
 * All classes, functions, and variables are documented so that you know what you need to change.
 * The plugin uses a strict file organization scheme that corresponds both to the WordPress Plugin Repository structure, and that makes it easy to organize the files that compose the plugin.
+* The widget is included, that shows the last 5 authors.
 
 ## Installation
 
@@ -24,6 +25,7 @@ The purpose of the plugin is the CRUD actions for authors from the admin panel a
 * To see posts from the frontend click 'View posts' to see the archive and 'View post' to see a singular page of the post.
 * Frontend views are available by the following paths: your-domain/authors for all authors list 
 and your-domain/authors/first_name-last_name for each single author view
+* The widget can be added to any of the sidebars from the Widgets menu
 
 ## License
 
