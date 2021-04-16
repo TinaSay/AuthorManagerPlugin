@@ -125,8 +125,8 @@ if ( ! class_exists( 'AuthorsManager' ) ) {
 			if ( $data['post_type'] == 'ttp_authors' ) {
 
 				if ( ! empty( $_POST['author_name'] ) && ! empty( $_POST['author_lastname'] ) ) {
-					$firstname = $_POST['author_name'];
-					$lastname  = $_POST['author_lastname'];
+					$firstname = sanitize_text_field($_POST['author_name']);
+					$lastname  = sanitize_text_field($_POST['author_lastname']);
 					if ( preg_match( '/\s/', $firstname ) ) {
 						$firstname = str_replace( ' ', '_', $firstname );
 					}

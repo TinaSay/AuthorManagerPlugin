@@ -46,7 +46,7 @@ get_header(); ?>
                 </figure>
                 <section class="author-info">
                     <h3><?php esc_html_e( $authorInfo->firstname ) . esc_html_e( ' ' ) . esc_html_e( $authorInfo->lastname ) ?></h3>
-                    <p><?php esc_html_e( $authorInfo->bio ) ?></p>
+                    <p><?php echo nl2br( esc_html( $authorInfo->bio)) ?></p>
                     <div class="author-gallery">
 
                         <!-- Retrieve attached images -->
@@ -54,17 +54,17 @@ get_header(); ?>
 
 						<?php
 
-						$attachments = get_posts(array(
-							'post_type' => 'attachment',
-							'numberposts' => -1,
-							'post_status' =>'any',
-							'post_parent' => get_the_ID()
-						));
+						$attachments = get_posts( array(
+							'post_type'    => 'attachment',
+							'numberposts'  => - 1,
+							'post_status'  => 'any',
+							'post_parent'  => get_the_ID(),
+							'post__not_in' => [ get_post_thumbnail_id() ]
+						) );
 
-						if ($attachments) {
+						if ( $attachments ) {
 							foreach ( $attachments as $attachment ) {
-								//echo apply_filters( 'the_title' , $attachment->post_title );
-								the_attachment_link( $attachment->ID , false );
+								the_attachment_link( $attachment->ID, false );
 							}
 						}
 						?>
