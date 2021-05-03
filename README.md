@@ -1,6 +1,6 @@
 # Authors Manager Plugin
 
-A plugin was made as a test task for Toptal. The plugin is standardized and organized, using object-oriented approach.
+The plugin is standardized and organized, using object-oriented approach.
 The purpose of the plugin is the CRUD actions for authors from the admin panel and displaying them on front end.
 
 ## Features
